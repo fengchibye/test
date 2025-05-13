@@ -11,6 +11,6 @@ app.post('/user', (req, res) => {
     res.send('<h1>已成功解析get请求参数</h1>');
 })
 
-app.listen(3000, () => {
+app.listen(8888, () => {
     console.log('服务器启动成功');
 });

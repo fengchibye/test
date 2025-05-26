@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学院专业性别统计</title>
+    <script src="./echarts.min.js"></script>
+    <script src="./jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="chartContainer" style="width: 800px; height: 600px; margin: 30px auto;"></div>
+
+    <script>
+        $(document).ready(function () {
+            // 初始化
+            var myChart = echarts.init(document.getElementById('chartContainer'));
+
+            // 显示加载动画
+            myChart.showLoading({
+                text: '请您休息片刻,正在加载...',
+                color: '#333',
+                textColor: '#ff4444',
+                maskColor: 'rgba(223,245,243)',
+                mask: false // 保持移除遮罩
+            });
+
+            // 异步加载JSON数据
+            $.getJSON('3.json', function (response) {
+                // 解析数据
+                var data = response.data;
+                var specNames = [...new Set(data.map(item => item.specName))];
+                var maleData = [];
+                var femaleData = [];
+
+                // 按专业分组并提取男女人数
+                specNames.forEach(spec => {
+                    const maleItem = data.find(item => item.specName === spec && item.sex === '男');
+                    const femaleItem = data.find(item => item.specName === spec && item.sex === '女');
+
+                    maleData.push(maleItem ? maleItem.value : 0);
+                    femaleData.push(femaleItem ? femaleItem.value : 0);
+                });
+
+                // 配置图表选项
+                var option = {
+                    title: {
+                        text: '某学院各专业男女生统计',
+                        subtext: '2024年',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: '#999'
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['男', '女'],
+                        left: 'right',
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: specNames,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '人数',
+                        min: 0,
+                        interval: 50,
+                        
+                    },
+                    label: {
+                        show: true, // 显示柱子上的数字
+                        position: 'top',
+                        color: '#333'
+                    },
+                    series: [
+                        {
+                            name: '男',
+                            type: 'bar',
+                            barWidth: '35%',
+                            data: maleData,
+                            itemStyle: {
+                                color: '#3398DB'
+                            }
+                        },
+                        {
+                            name: '女',
+                            type: 'bar',
+                            barWidth: '35%',
+                            data: femaleData,
+                            itemStyle: {
+                                color: '#F2994A' // 高级配色
+                            },
+                           
+                        },
+                        
+                    ]
+                };
+
+                // 应用配置并隐藏加载动画
+                myChart.setOption(option);
+                myChart.hideLoading();
+            }).fail(function () {
+                // 错误处理
+                myChart.hideLoading();
+                alert('数据加载失败，请检查文件路径或格式');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+﻿{
+	"data":
+	[
+		{"sex":"男",	"value":325,	"specName":"软件技术"},
+		{"sex":"女",	"value":165,	"specName":"软件技术"},
+		{"sex":"男",	"value":222,	"specName":"大数据技术"},
+		{"sex":"女",	"value":177,	"specName":"大数据技术"},
+		
+		{"sex":"男",	"value":127,	"specName":"人工智能技术"},
+		{"sex":"女",	"value":87,	"specName":"人工智能技术"},		
+		
+		{"sex":"男",	"value":65,	"specName":"移动应用技术"},
+		{"sex":"女",	"value":58,	"specName":"移动应用技术"},
+		
+		{"sex":"男",	"value":123,	"specName":"云计算技术"},
+		{"sex":"女",	"value":73,	"specName":"云计算技术"},
+		
+		{"sex":"男",	"value":188,	"specName":"计算机网络技术"},
+		{"sex":"女",	"value":222,	"specName":"计算机网络技术"}
+	]
+}

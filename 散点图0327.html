@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../echarts.min.js"></script>
+  <script src="./jquery.min.js" ></script>
+</head>
+<body>
+  <div id="box" style="width: 800px;height: 400px;"></div>
+  <script>
+    var mEcharts=echarts.init(document.querySelector('#box'));
+    var option={
+      title:{
+        text:'身高体重的相关性--散点图'
+      },
+      tooltip:{
+        trigger:'axis',
+      },
+      xAxis:{
+        scale:true,
+        name:'身高(cm)'
+      },
+      yAxis:{
+        scale:true,
+        name:'体重(kg)'
+      },
+      series:[
+        {
+          name:'身高体重相关性研究',
+          // type:'scatter',
+          // 设置涟漪动画效果
+          type:'effectScatter',
+          showEffectOn:'emphasize',
+          rippleEffect:{
+            scale:10//涟漪缩放的比例大小
+          },
+
+          data:[[167,90.6],[177.8,74.8],[139,68],[169.5,68],[163,63.6],
+                [157,53.2],[164,65],[163,62],[171.2,65.1],[161.6,58.9],
+              [167.4,67.7],[167.5,63],[181.1,76],[165,60],[174.5,70],[171.5,68]],
+          // symbolSize:30
+          // 设置散点的大小
+          symbolSize:function(arg){
+            //  console.log(arg)
+             //bmi>28，散点大小为20，否则设置为5
+             //bmi=体重(kg)/身高*身高（m）
+             var shengao=arg[0]/100
+             var bmi=arg[1]/(shengao*shengao)
+             if(bmi>28){
+              return 20
+             }else{
+              return 15
+             }
+          },
+          //散点颜色
+          itemStyle:{
+            // color:'blue'
+            color:function(arg){
+              console.log(arg)
+             //bmi>28，散点大小为20，否则设置为5
+             //bmi=体重(kg)/身高*身高（m）
+             var shengao=arg.value[0]/100
+             var bmi=arg.value[1]/(shengao*shengao);
+            
+             if(bmi>28){
+              return 'red'
+             }else{
+              return 'green'
+             }
+            }
+          }
+        }
+      ]
+
+    }
+    mEcharts.setOption(option)
+  </script>
+  
+</body>
+</html>
